@@ -1,0 +1,462 @@
+Editing Table
+Problem Statement
+
+Jason Van Damme, the actor and director is editing his new action movie with his post production team. The film has been already shot and is divided into multiple reels of varying length (in time). The team has also employed a certain number of young editors who'll assist the lead editor. Every reel has to be gone through its entire length and checked for issues. An editor can go through the length of a reel in as much time the length of the reel is.
+
+Since the release date is nearing, Jason needs the editing work to get completed fast. So, he wants all the editors to divide the work amongst them. The problem is, the editors can only take a set of reels which are continuous, so as to easily check issues with continuity. However, they can work parallely to reduce the overall time.
+
+Given the number of reels, and length (in time) of each reel, and the number of editors available, Jason wants to know the minimum time in which the editing work can get completed. You need to help him find that value.
+
+Input Format
+
+The first line of input contains a single integer n, which is number of reels produced for the movie
+
+The second line of input contains n space separated integers, l1, l2 ... ln which are lengths (in time) of n respective reels.
+
+The third line of input contains a single integer editors_count, which is the number of editors who'll divide the editing work amongst them.
+
+Constraints
+
+1 <= n < 10^6
+
+1 <= li < 10^7 for all 1 <= i <= n
+
+1 <= editors_count < 10^5
+
+Output Format
+
+A single integer that is the minimum time in which the editing work can be finished if all editors are assigned 1 or more consecutive number of reels.
+
+Sample Input 1:
+
+7
+20 25 10 15 40 20 35
+3
+
+Sample Output 1:
+
+55
+
+Explanation
+
+Since there are 3 editors available, the reels can be divided among them in these 15 possible ways:
+
+[[20] [25] [10 15 40 20 35]]
+
+[[20] [25 10] [15 40 20 35]]
+
+[[20] [25 10 15] [40 20 35]]
+
+[[20] [25 10 15 40] [20 35]]
+
+[[20] [25 10 15 40 20] [35]]
+
+[[20 25] [10] [15 40 20 35]]
+
+[[20 25] [10 15] [40 20 35]]
+
+[[20 25] [10 15 40] [20 35]]
+
+[[20 25] [10 15 40 20] [35]]
+
+[[20 25 10] [15] [40 20 35]]
+
+[[20 25 10] [15 40] [20 35]]
+
+[[20 25 10] [15 40 20] [35]]
+
+[[20 25 10 15] [40] [20 35]]
+
+[[20 25 10 15] [40 20] [35]]
+
+[[20 25 10 15 40] [20] [35]]
+
+However, out of all of them, there is a case where the maximum time taken by any of the editors is 55.
+
+[[20 25 10] [15 40] [20 35]]
+
+That is no other combination where the maximum time taken is less than 55. So the minimum amount of time the editing can be completed is 55 and so is the answer.
+
+Sample Input 2:
+
+3
+10 5 20
+2
+
+Sample Output 2:
+
+20
+
+Explanation
+
+The minimum time of editing will be achieved when editor 1 is assigned 10 and 5, and editor 2 is assigned 20. The total time taken will be max(10 + 5, 20) = 20.
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+#define ll long long int
+ll n,m,a[1000005],l,r,mid,sum,maxx;
+bool check(ll x)
+{
+    ll cnt=1,sum=0;
+    for(ll i=1;i<=n;i++)
+    {
+        if(sum+a[i]<=x) sum+=a[i];
+        else
+        {
+            cnt++;
+            sum=a[i];
+        }
+    }
+    return cnt<=m;
+}
+int main()
+{
+    cin>>n;
+    for(ll i=1;i<=n;i++)
+    {
+        cin>>a[i];
+        maxx=max(maxx,a[i]);
+        r+=a[i];
+    }
+    cin>>m;
+    l=maxx;
+    while(l<r)
+    {
+        mid=(l+r)>>1;
+        if(check(mid)) r=mid;
+        else l=mid+1;
+    }
+    cout<<l<<endl;
+}
+
+Problem Statement
+
+Binder, the no judgement matchmaking/dating app, assigns all its users a score based on their preferences, experiences, professions and hobbies. For some users this score can be a negative number, for others it can be a positive number.
+
+Under their new feature launch for the month of February, Binder is introducing a new feature called "Matchmaking Complements". They believe users extremely opposite of each other have a tendency to be matched with each other. So they decide a score s, for which any two users who's individual scores sum up to be s, are a valid pair for matchmaking, and they'll be sent relevant notifications.
+
+Your goal, as the head data analyst for Binder, is to find the total number of pairs that will be possible under this feature, given a list of users and their scores, and the decided score s.
+
+Input Format
+
+The first line of input will be a single integer n, denoting the number of users.
+The second line of input will be a single integer score, denoting the decided score.
+The third line of input will contain n space separated integers, s1, s2, ..., sn, denoting the individual scores of the users.
+Constraints
+
+1 <= n < 106
+
+-106 <= score < 106
+
+-105 <= si < 105 for all 1 <= i <= n
+
+Output Format
+
+A single integer denoting the total number of pairs that will be possible under this feature.
+
+Sample Input 1:
+
+5
+10
+6 3 4 7 6
+
+Sample Output 1:
+
+3
+
+Explanation
+
+The possible pairs of users whose individual scores sum up to 10 are:
+
+Users 1 and 3 (6 + 4 = 10)
+
+Users 2 and 4 (3 + 7 = 10)
+
+Users 3 and 5 (4 + 6 = 10)
+
+Hence the answer is 3.
+
+Sample Input 2:
+
+3
+
+20
+
+7 8 5
+
+Sample Output 2:
+
+0
+
+Explanation
+
+None of the possible pairs of users have individual scores that sum up to be 20. So the answer is 0.
+
+
+Problem Statement
+
+Binder, the no judgement matchmaking/dating app, assigns all its users a score based on their preferences, experiences, professions and hobbies. For some users this score can be a negative number, for others it can be a positive number.
+
+Under their new feature launch for the month of February, Binder is introducing a new feature called "Matchmaking Complements". They believe users extremely opposite of each other have a tendency to be matched with each other. So they decide a score s, for which any two users who's individual scores sum up to be s, are a valid pair for matchmaking, and they'll be sent relevant notifications.
+
+Your goal, as the head data analyst for Binder, is to find the total number of pairs that will be possible under this feature, given a list of users and their scores, and the decided score s.
+
+Input Format
+
+The first line of input will be a single integer n, denoting the number of users.
+The second line of input will be a single integer score, denoting the decided score.
+The third line of input will contain n space separated integers, s1, s2, ..., sn, denoting the individual scores of the users.
+Constraints
+
+1 <= n < 106
+
+-106 <= score < 106
+
+-105 <= si < 105 for all 1 <= i <= n
+
+Output Format
+
+A single integer denoting the total number of pairs that will be possible under this feature.
+
+Sample Input 1:
+
+5
+10
+6 3 4 7 6
+
+Sample Output 1:
+
+3
+
+Explanation
+
+The possible pairs of users whose individual scores sum up to 10 are:
+
+Users 1 and 3 (6 + 4 = 10)
+
+Users 2 and 4 (3 + 7 = 10)
+
+Users 3 and 5 (4 + 6 = 10)
+
+Hence the answer is 3.
+
+Sample Input 2:
+
+3
+
+20
+
+7 8 5
+
+Sample Output 2:
+
+0
+
+Explanation
+
+None of the possible pairs of users have individual scores that sum up to be 20. So the answer is 0.
+
+
+
+Problem Statement
+
+Peter's friends Mary and Ned are going to prank him for his birthday. They have n envelopes, each with a certain size. They also have an infinite amount of extra empty envelops of various sizes. What they want to do is, pack n envelopes inside each other with the help of extra envelops, with nothing inside the innermost envelope. The final packing will be given as a gift to Peter.
+
+Here's the problem. This is what they are allowed to do for each packing cycle:
+
+Pick any two of the remaining out of n envelopes, and put them together inside an extra envelope. The size of the extra envelope should be equal to the combined size of the two envelopes.
+
+Pick one envelope out of the remaining out of n envelopes, and pick one extra non empty envelope (already filled), and put both of them together in another empty extra envelope. The size of the new extra envelope should be equal to the combined size of the two envelopes put inside it.
+
+Pick two extra non-empty envelops, and put them inside one empty extra envelope. The size of the new extra envelope should be equal to the combined size of two envelopes inside it.
+
+One of these 3 packing steps gets repeated until all of the n envelopes are packed inside one extra envelope.
+
+The goal is to find the minimum total size of all the extra envelopes used for packing.
+
+Input Format
+
+The first line of input contains a single integer n, which is number of original envelopes
+
+The second line of input contains n space separated integers, s1, s2 ... sn which are sizes of n respective envelopes.
+
+Constraints
+
+1 <= n <= 999999
+
+1 <= si <= 9999999 for all 1 <= i <= n
+
+Output Format
+
+A single integer that denotes the minimum total size of all extra envelopes used to pack all n original envelopes.
+
+Sample Input 1:
+
+6
+7 1 5 4 8 3
+
+Sample Output 1:
+
+68
+
+Explanation
+
+Consider this case of packing steps
+
+Contents: 7 1 5 4 8 3
+
+Picks: Envelopes of size 1 and 3
+
+Combined, put in an extra envelope of size 4 and added to the contents
+
+Contents: 7 4 5 4 8
+
+Picks: Envelopes of size 4 and 4
+
+Combined, put in an extra envelope of size 8 and added to the contents
+
+Contents: 7 8 5 8
+
+Picks: Envelops of size 7 and 5
+
+Combined, put in an extra envelope of size 12 and added to the contents
+
+Contents: 12 8 8
+
+Picks: Envelops of size 8 and 8
+
+Combined, put in an extra envelope of size 16 and added to the contents
+
+Contents: 12 16
+
+Combined, put in an extra envelope of size 28 and added to the contents
+
+Contents: 28
+
+The total size of all extra envelopes used is 4 + 8 + 12 + 16 + 28 = 68
+
+This is also the case where minimum total size of extra envelopes is achieved.
+
+Sample Input 2:
+
+3
+2 2 2
+
+Sample Output 2:
+
+10
+
+Explanation
+
+Going by the above logic, the steps would look something like this:
+
+2 2 2 => 2 + 2 = 4
+
+4 2 => 4 + 2 = 6
+
+6
+
+The total size of extra envelopes used is 4 + 6 = 10, which is also the minimum total size of extra envelopes.
+
+Problem Statement
+
+Peter's friends Mary and Ned are going to prank him for his birthday. They have n envelopes, each with a certain size. They also have an infinite amount of extra empty envelops of various sizes. What they want to do is, pack n envelopes inside each other with the help of extra envelops, with nothing inside the innermost envelope. The final packing will be given as a gift to Peter.
+
+Here's the problem. This is what they are allowed to do for each packing cycle:
+
+Pick any two of the remaining out of n envelopes, and put them together inside an extra envelope. The size of the extra envelope should be equal to the combined size of the two envelopes.
+
+Pick one envelope out of the remaining out of n envelopes, and pick one extra non empty envelope (already filled), and put both of them together in another empty extra envelope. The size of the new extra envelope should be equal to the combined size of the two envelopes put inside it.
+
+Pick two extra non-empty envelops, and put them inside one empty extra envelope. The size of the new extra envelope should be equal to the combined size of two envelopes inside it.
+
+One of these 3 packing steps gets repeated until all of the n envelopes are packed inside one extra envelope.
+
+The goal is to find the minimum total size of all the extra envelopes used for packing.
+
+Input Format
+
+The first line of input contains a single integer n, which is number of original envelopes
+
+The second line of input contains n space separated integers, s1, s2 ... sn which are sizes of n respective envelopes.
+
+Constraints
+
+1 <= n <= 999999
+
+1 <= si <= 9999999 for all 1 <= i <= n
+
+Output Format
+
+A single integer that denotes the minimum total size of all extra envelopes used to pack all n original envelopes.
+
+Sample Input 1:
+
+6
+7 1 5 4 8 3
+
+Sample Output 1:
+
+68
+
+Explanation
+
+Consider this case of packing steps
+
+Contents: 7 1 5 4 8 3
+
+Picks: Envelopes of size 1 and 3
+
+Combined, put in an extra envelope of size 4 and added to the contents
+
+Contents: 7 4 5 4 8
+
+Picks: Envelopes of size 4 and 4
+
+Combined, put in an extra envelope of size 8 and added to the contents
+
+Contents: 7 8 5 8
+
+Picks: Envelops of size 7 and 5
+
+Combined, put in an extra envelope of size 12 and added to the contents
+
+Contents: 12 8 8
+
+Picks: Envelops of size 8 and 8
+
+Combined, put in an extra envelope of size 16 and added to the contents
+
+Contents: 12 16
+
+Combined, put in an extra envelope of size 28 and added to the contents
+
+Contents: 28
+
+The total size of all extra envelopes used is 4 + 8 + 12 + 16 + 28 = 68
+
+This is also the case where minimum total size of extra envelopes is achieved.
+
+Sample Input 2:
+
+3
+2 2 2
+
+Sample Output 2:
+
+10
+
+Explanation
+
+Going by the above logic, the steps would look something like this:
+
+2 2 2 => 2 + 2 = 4
+
+4 2 => 4 + 2 = 6
+
+6
+
+The total size of extra envelopes used is 4 + 6 = 10, which is also the minimum total size of extra envelopes.
+
